@@ -1,4 +1,6 @@
-%Plot Rrs Spectrum
+%Process radiometer data and output to SeaBASS format
+% Uses files generated with
+% 'generate_hypersas_reflectance_radiance_files_all_cruise_rev6.m'
 
 clear
 clc
@@ -270,7 +272,7 @@ for im=1:nsta
     gps_course_intrp_filt=interp1(datenum(gps_time),gps_course,datenum(lt_time(good_lt_index(~irrs))));
     gps_speed_intrp_filt=interp1(datenum(gps_time),gps_speed,datenum(lt_time(good_lt_index(~irrs))));
     wind_speed_intrp_filt=interp1(datenum(gps_time),wind_speed,datenum(lt_time(good_lt_index(~irrs))));
-
+    rho_intrp_filt=interp1(datenum(gps_time),rho,datenum(lt_time(good_lt_index(~irrs))));
 
     %Omit discrete rrs outliers based on point to point variations
     %[drrs_in,idrrs]=rmoutliers(drrs(good_dlt_index,4),'median','ThresholdFactor',1);  %This is a median filter
@@ -334,6 +336,7 @@ for im=1:nsta
     gps_course_intrp_filt=gps_course_intrp_filt(include_indx2,:);
     gps_speed_intrp_filt=gps_speed_intrp_filt(include_indx2,:);
     wind_speed_intrp_filt=wind_speed_intrp_filt(include_indx2,:);
+    rho_intrp_filt=rho_intrp_filt(include_indx2,:);
 
     %Output data to seabass format 
 
