@@ -1,4 +1,4 @@
-%extract_hypersas_seabass - Program to read hypersas data from SeaBASS
+% extract_hypersas_seabass - Program to read hypersas data from SeaBASS
 % formatted data files and compiles into a single .mat file 
 % 
 % Syntax:  extract_hypersas_seabass.m
