@@ -1,4 +1,4 @@
-%gps_readdat.m - Function called by 'compile_hypersas_data_revised_v2.m' to 
+%ths_readdat.m - Function called by 'compile_hypersas_data_revised_v2.m' to 
 % read ths data files
 % 
 % Syntax: [ths_index,ths_dat,ths_hdr,ths_roll,ths_pitch,ths_date,ths_timer,ths_frame,ths_time,ths_comp]=...
