@@ -17,10 +17,10 @@
 % Other m-files required: 
 %  1) The function 'read_ndbc_buoy_met_data_v2.m' is required to read the
 %      NDBC buoy wind files
-%  1) The function 'SolarAzEl.m' is required to determine solar azimuth and elevation
+%  2) The function 'SolarAzEl.m' is required to determine solar azimuth and elevation
 %     data files 
-%  1) The function 'gps_readdat' is required to read the gps data files 
-%  1) The function 'ths_readdat' is required to read the pitch and roll sensor 
+%  3) The function 'gps_readdat' is required to read the gps data files 
+%  4) The function 'ths_readdat' is required to read the pitch and roll sensor 
 %     data files 
 %
 % MAT-files required: none
