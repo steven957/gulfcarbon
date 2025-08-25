@@ -28,15 +28,15 @@ clc
 crz = ['GC',num2str(icr)];
     
     switch crz
-        % inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\Gulf Carbon 1\Hyperpro_Data\';
+        % inputfolder='...\GulfCarbon\GC_hypersensor_data\Gulf Carbon 1\Hyperpro_Data\';
         case 'GC2'
-            inputfolder = 'C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
+            inputfolder = '...\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
         case 'GC3'
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
         case 'GC4'
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
         case 'GC5'
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
     end
 
 % Text string for file naming
@@ -264,4 +264,5 @@ end
 save([inputfolder,cruise_txt,'_all_hyperpro.mat'],'hyperpro_struct');
 
 disp('Compiling *.mat files completed');
+
 
