@@ -24,7 +24,7 @@
 % School for Marine Science and Technology, University of Massachusetts Dartmouth
 % email address: slohrenz@umassd.edu
 % Website: http://www.umassd.edu/smast/
-% Last revision: 24 Jul 2024
+% Last revision: 25 Aug 2025
 
 %% ------------- BEGIN CODE --------------%
 
@@ -39,16 +39,16 @@ cruise = ['GC',num2str(icr)];
 
 switch cruise
     case 'GC2'
-        inpath='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\To_SeaBASS\';
+        inpath='...\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\To_SeaBASS\';
         cruise_name = 'Apr2009';
     case 'GC3'
-        inpath='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\Hyperpro_GC3\To_SeaBASS\';
+        inpath='...\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\Hyperpro_GC3\To_SeaBASS\';
         cruise_name = 'Jul2009';    
     case 'GC4'
-        inpath='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\To_SeaBASS\';
+        inpath='...\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\To_SeaBASS\';
         cruise_name = 'Nov2009';
     case 'GC5'
-        inpath='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\To_SeaBASS\';
+        inpath='...\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\To_SeaBASS\';
         cruise_name = 'Mar2010';
 end
 
@@ -86,5 +86,6 @@ end
 %------------- END OF CODE --------------
 %Please send suggestions for improvement
 % to Steven Lohrenz at this email address: slohrenz@umassd.edu
+
 
 
