@@ -30,15 +30,15 @@ for ic = 1:5
 
     switch ic
         case 1
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\Gulf Carbon 1\Hyperpro_Data\';
+            inputfolder='...\NSF\GulfCarbon\GC_hypersensor_data\Gulf Carbon 1\Hyperpro_Data\';
         case 2
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
         case 3
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
         case 4
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
         case 5
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
     end
     
     file_lst=dir([inputfolder,'*L2.hdf']);
