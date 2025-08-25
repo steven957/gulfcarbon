@@ -33,15 +33,15 @@ clc
 crz = ['GC',num2str(icr)];
 
 switch crz
-        % inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\Gulf Carbon 1\Hyperpro_Data\';
+        % inputfolder='...\GulfCarbon\GC_hypersensor_data\Gulf Carbon 1\Hyperpro_Data\';
         case 'GC2'
-            inputfolder = 'C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
+            inputfolder = '...\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
         case 'GC3'
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
         case 'GC4'
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
         case 'GC5'
-            inputfolder='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
+            inputfolder='...\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
     end
 
 cruise_txt = crz;
@@ -312,7 +312,7 @@ for groupn=1:max(pro_group)
         [pro_size,~]=size(ed_corr{pro_index});  % Determine number of profile measurements
 
         % Correct radiometric values for variations in surface irradiance (Zibordi et al. 2012,
-        % Ocean Sci. 8, 567–586, 2012 (www.ocean-sci.net/8/567/2012/)
+        % Ocean Sci. 8, 567Â–586, 2012 (www.ocean-sci.net/8/567/2012/)
 
         if ~isempty(ed_corr{pro_index})
             ed_corr_es=(ed_corr{pro_index}./es_corr_interp{pro_index}).*repmat(es_corr_interp{pro_index}(1,:),pro_size,1);
@@ -470,7 +470,7 @@ for groupn=1:max(pro_group)
         end
         
         % Calculate water leaving radiance and Rrs
-        lw_0=0.543.*lu_0;  % (Zibordi et al. 2012, Ocean Sci. 8, 567–586, 2012 (www.ocean-sci.net/8/567/2012/)
+        lw_0=0.543.*lu_0;  % (Zibordi et al. 2012, Ocean Sci. 8, 567Â–586, 2012 (www.ocean-sci.net/8/567/2012/)
         lw_0_interp=interp1(lu_lambda',lw_0,ed_lambda');
         rrs=lw_0_interp./es_corr_interp{pro_index}(1,:);
         
@@ -507,6 +507,7 @@ end
 save([inputfolder,cruise_txt,'_hyperpro_processed.mat'],'pro_group_struct');
 
 disp('Hyperpro processing completed');
+
 
 
 
