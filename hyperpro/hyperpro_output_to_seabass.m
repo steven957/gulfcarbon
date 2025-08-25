@@ -39,7 +39,7 @@ crz = ['GC',num2str(icr)];
     
     switch crz
         case 'GC2'
-            inpath = 'C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
+            inpath = '...\GulfCarbon\GC_hypersensor_data\GC2_Hyper_sensors\GC2_hyperPro_data\';
             cruise_txt = 'GC2';
     
             input_meta_file={'hyperpro_seabass_header_template_file.csv'};
@@ -54,7 +54,7 @@ crz = ['GC',num2str(icr)];
             %Spreadsheet with input parameters
             infile_name=[inpath,'Spreadsheet\GC2_hyperpro_list.xlsx'];
         case 'GC3'
-            inpath = 'C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
+            inpath = '...\GulfCarbon\GC_hypersensor_data\GC3_hypersensors\HyperPro_GC3\';
             cruise_txt = crz;
     
             input_meta_file={'hyperpro_seabass_header_template_file.csv'};
@@ -69,7 +69,7 @@ crz = ['GC',num2str(icr)];
             %Spreadsheet with input parameters
             infile_name=[inpath,'Spreadsheet\GC3_hyperpro_list.xlsx'];
         case 'GC4'
-            inpath ='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
+            inpath ='...\GulfCarbon\GC_hypersensor_data\GC4_hyper\HyperPro_data_GC4\';
             cruise_txt = 'GC4';  % Specify cruise for file loading and naming
     
             input_meta_file={'hyperpro_seabass_header_template_file.csv'};
@@ -84,7 +84,7 @@ crz = ['GC',num2str(icr)];
             %Spreadsheet with input parameters
             infile_name=[inpath,'Spreadsheet\GC4_hyperpro_list.xlsx'];
        case 'GC5'
-            inpath ='C:\Users\slohrenz\OneDrive - UMASS Dartmouth\Documents\Steve\DATA\NSF\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
+            inpath ='...\GulfCarbon\GC_hypersensor_data\GC5_hyperPro\';
             cruise_txt = 'GC5';
     
             input_meta_file={'hyperpro_seabass_header_template_file.csv'};
@@ -100,7 +100,7 @@ crz = ['GC',num2str(icr)];
             infile_name=[inpath,'Spreadsheet\GC5_hyperpro_list.xlsx'];
     end
     
-    % To do single station - need to modify code below as well
+    % To do single station, uncomment statement below - need to modify code below as well
     % sta_txt = 'g4';
     
     % Flag to save output if desired
@@ -209,7 +209,7 @@ crz = ['GC',num2str(icr)];
             hyperpro_data_filter
             
         %{
-            %% Plot spectra for QA/QC if desired
+            %% Create variables for plotting for QA/QC if desired
             for ipro=pro_indices  
                 lambda_min = 375;  % 399.8
                 lambda_max = 750;   % 700.2
@@ -353,3 +353,4 @@ disp('Hyperpro output to seabass completed')
 %------------- END OF CODE --------------
 %Please send suggestions for improvement
 % to Steven Lohrenz at this email address: slohrenz@umassd.edu
+
