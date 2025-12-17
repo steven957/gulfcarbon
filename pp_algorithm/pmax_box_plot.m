@@ -6,8 +6,8 @@
 % averages for the given clusters
 %
 % Inputs:
-%    1) Folder location with 'Pmax_aph_spec_vs_phi.xlsx' spreadsheet
-%    4) Spreadsheet with stations and depths for sample collection
+%    1) Folder location with 'Pmax_aph_spec_vs_phi.xlsx' and 'GC#_all_kd_eo.xlsx' spreadsheet
+%    2) Spreadsheet with stations and depths for sample collection
 %    
 % Outputs:
 %    output - Figures with plotted results
@@ -20,7 +20,7 @@
 % School for Marine Science and Technology, University of Massachusetts Dartmouth
 % email address: slohrenz@umassd.edu
 % Website: http://www.umassd.edu/smast/
-% Last revision: 15 Apr 2024
+% Last revision: 17 Dec 2025
 
 %% ------------- BEGIN CODE --------------%% 
 
