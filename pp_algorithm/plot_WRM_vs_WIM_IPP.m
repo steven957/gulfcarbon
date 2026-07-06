@@ -57,7 +57,7 @@ r_square_WIM = R_IPP_WIM(1,2).^2;
 mean_percent_bias = mean(100.*(all_IPP_tab.WRM-all_IPP_tab.WIM)./all_IPP_tab.WRM);
 
 [R_IPP_WRME,P2] = corrcoef(log(all_IPP_tab.WRM),log(all_IPP_tab.WRME));
-rtmeansq2 = rmse(all_IPP_tab.WRM,all_IPP_tab.WRME);
+rtmeansq_WRMe = rmse(all_IPP_tab.WRM,all_IPP_tab.WRME);
 r_square_WRME = R_IPP_WRME(1,2).^2;
 
 ylabel('Wavelength-Integrated IPP (mol C m^{-2} h^{-1})','FontSize',14,'FontWeight','bold');
@@ -78,7 +78,7 @@ hpp_wrm_pr = plot(all_IPP_tab.WRM,all_IPP_tab_profile.WRM,'ob','Linewidth',1.5);
 hold on
 h1to1 = plot([ax_min,ax_lim],[ax_min,ax_lim],':k','LineWidth',1.5);
 box on
-% hpp_wim_pr = plot(all_IPP_tab.WIM,all_IPP_tab_profile.WIM,'+m','Linewidth',1.5);
+hpp_wim_pr = plot(all_IPP_tab.WIM,all_IPP_tab_profile.WIM,'+m','Linewidth',1.5);
 set(gca,'FontSize',12,'LineWidth',1.5,'YLim',[ax_min,ax_lim],'XLim',[ax_min,ax_lim], ...
     'XScale','log','YScale','log');
 
@@ -89,13 +89,13 @@ r_square_WRM_profile = R_IPP_WRM_profile(1,2).^2;
 mean_percent_bias_profile = mean(100.*(all_IPP_tab.WRM-all_IPP_tab_profile.WRM)./all_IPP_tab.WRM);
 
 [R_IPP_WIM_profile,P4] = corrcoef(log(all_IPP_tab.WIM),log(all_IPP_tab_profile.WIM));
-rtmeansq2 = rmse(all_IPP_tab.WIM,all_IPP_tab_profile.WIM);
+rtmeansq_WIM = rmse(all_IPP_tab.WIM,all_IPP_tab_profile.WIM);
 r_square_WIM_profile = R_IPP_WIM_profile(1,2).^2;
 
 ylabel('IPP Profile (mol C m^{-2} h^{-1})','FontSize',14,'FontWeight','bold');
 xlabel('IPP Surface Only (mol C m^{-2} h^{-1})','FontSize',14,'FontWeight','bold');
 
-legend([hpp_wrm_pr,h1to1],{'WRM vs WRM profile','1:1 Line'},'FontSize',12,'Location','Southeast');
+legend([hpp_wrm_pr,hpp_wim_pr,h1to1],{'WRM vs WRM profile','WIM vs WIM profile','1:1 Line'},'FontSize',12,'Location','Southeast');
 
 print([folderpath,'P-E\','wrm_vs_profile_ipp.tif'],'-dtiff','-r600');
 
