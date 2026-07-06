@@ -192,10 +192,10 @@ for icr = 2:5
         pmax_aph440_spec = (pbmax.*chl./aph_440)./12000;   % mol C m-2 h-1
 
         % Estimated pmax_aph440_spec from pmax_box_plot.m
-        pmax_aph440_spec_est = 0.0215*(1 - exp(-5.83*kd490));   % mol C m-2 h-1 
+        pmax_aph440_spec_est = 0.0217*(1 - exp(-5.69*kd490));   % mol C m-2 h-1 
         
         % Estimated phi based on correlation with pmax_aph440_spec (see pmax_aph_spec_vs_phi.m)
-        phi_est = -60.9.*pmax_aph440_spec_est.^2 + 5.19.*pmax_aph440_spec_est - 0.00369;
+        phi_est = -60.3.*pmax_aph440_spec_est.^2 + 5.17.*pmax_aph440_spec_est - 0.00354;
     
         % Use to determine +-50% changes from original WRM values
 
