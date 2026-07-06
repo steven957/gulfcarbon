@@ -66,13 +66,26 @@ end
 % Prepare datasets
 % Kd data
 kdata = [kdata1;kdata2;kdata3;kdata4;kdata5];  % Combine Kd data for cruises
-kdata = kdata(~(kdata.kd0_490==0 | strcmp(kdata.Cluster,'Unknown')),:);  % Eliminate missing entries
+kdata = kdata(~(kdata.kd0_490==0) & ~isnan(kdata.kd0_490),:); % Eliminate missing entries
 kgroupdata = categorical(kdata.Cluster); % Set water mass Cluster as categorical variable
 
 % Photosynthesis-irradiance (P-E) data 
 pefile = 'Pmax_aph_spec_vs_phi_table.xlsx';
 pepath = '\P-E\';
 pedata =  readtable([pepath,pefile],'Sheet','Data');
+
+% Match kdata to pedata data
+for ipe = 1:height(pedata)
+    pedata.Cluster{ipe} = [upper(pedata.Cluster{ipe}(1)),pedata.Cluster{ipe}(2:end)];
+    k_indx = find(strcmpi(kdata.Cruise,pedata.Cruise(ipe)) & strcmpi(kdata.Station,pedata.Station(ipe)));
+    if isempty(k_indx)
+        pedata.kd0_490(ipe) = NaN;
+    else
+        pedata.kd0_490(ipe) = kdata.kd0_490(k_indx);
+    end
+end
+
+pedata = pedata(~isnan(pedata.Pmax_aph440_spec) & ~isnan(pedata.kd0_490),:);
 pegroupdata = categorical(pedata.Cluster); % Set water mass Cluster as categorical variable
 
 
@@ -103,7 +116,7 @@ figure(2);
 clf
 set(gcf, 'Position', [100, 100, 800, 600]); % Set figure size
 
-boxchart(kgroupdata,kdata.kd0_490);
+hkd = boxchart(kgroupdata,kdata.kd0_490);
 hold on
 box on
 xlabel('Cluster','FontSize',14,'FontWeight','bold');
@@ -120,8 +133,10 @@ print([outpath,'cluster_kd490_box_plot.tif'],'-dtiff','-r600');
 
 %% Apply fit of cluster means of Pmax_aph440_spec vs Kd490
 
-Pmax_group_mean = groupsummary(pedata(:,["Cluster","Pmax_aph440_spec","Kd490"]),"Cluster",{"mean","std"});
+Pmax_group_mean = groupsummary(pedata(:,["Cluster","Pmax_aph440_spec","Kd490","kd0_490"]),"Cluster",{"mean","std"});
 [r,p] = corrcoef(Pmax_group_mean.mean_Kd490,Pmax_group_mean.mean_Pmax_aph440_spec);
+
+kd_group_mean = groupsummary(kdata(:,["Cluster","kd0_490"]),"Cluster",{"mean","std"});
 
 % Linear least squares fit to determine relationship
 
@@ -130,8 +145,8 @@ ydata_mean = Pmax_group_mean.mean_Pmax_aph440_spec;
 
 yneg = Pmax_group_mean.std_Pmax_aph440_spec;
 ypos = Pmax_group_mean.std_Pmax_aph440_spec;
-xneg = Pmax_group_mean.std_Kd490;
-xpos = Pmax_group_mean.std_Kd490;
+xneg = Pmax_group_mean.std_kd0_490;
+xpos = Pmax_group_mean.std_kd0_490;
 
 % Plot relationship between cluster means of Pmax_aph440_spec vs Kd490
 figure(3);
