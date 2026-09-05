@@ -4,7 +4,7 @@
 % This script calls another script ('ed_calculation_with_satellite_par_input_single_file.m')
 % to generate spectral irradiance and PUR depth profiles for each pixel.
 % It then generates PP estimates for each pixel vs. depth and integrates to
-% produce a water column primary production values for each pixel. 
+% produce a water column primary production values for each pixel.  
 %
 % Inputs:
 %   1) Folder location with 'ed_calculation_with_satellite_par_input_single_file.m' script
