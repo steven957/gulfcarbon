@@ -21,15 +21,18 @@
 %
 % MAT-files required: 
 %    1) '*.mat' files for filterpad shape vectors generated using
-%    plot_pad_phyto_size_vectors_seabass.m ('fmicro_aph_dat.mat','fpico_aph_dat.mat'
+%    plot_pad_phyto_size_vectors_seabass.m ('fmicro_aph_dat.mat','fpiconano_aph_dat.mat'
 %    2) '*.mat' files with surface spectral irradiance shape files
 %    generated using plot_ed0_mean.m ('ed0_es_shape_vector.mat')
+%    3) 'kd_cluster_averages.mat' - mean diffuse spectral attenuation
+%          coefficients for downwelling irradiance for different water mass
+%          types (see Mili and Lohrenz, 2026)
 %
 % Author: Steven E. Lohrenz, Ph.D., biological oceanography
 % School for Marine Science and Technology, University of Massachusetts Dartmouth
 % email address: slohrenz@umassd.edu
 % Website: http://www.umassd.edu/smast/
-% Last revision: 7 Aug 2026
+% Last revision: 5 Sep 2026
 
 %% ------------- BEGIN CODE --------------%
 
@@ -38,17 +41,17 @@
 % clearvars
 
 %% Load data files
-ed0path = '/run/media/slohrenz/PrimaryDrive/ocean_color/pace/Ancillary/';
-padpath = '/run/media/slohrenz/PrimaryDrive/ocean_color/pace/Ancillary/';
-kdpath = '/run/media/slohrenz/PrimaryDrive/ocean_color/pace/Ancillary/';
+ed0path = '/home/user/Ancillary/';
+padpath = '/home/user/Ancillary/';
+kdpath = '/home/user/Ancillary/';
 
 % Read in satellite image data (par, kd490, aph442, lat, lon)
 disp('Processing satellite image data'); % 
 
 % Load data files 
 load([ed0path,'ed0_es_shape_vector.mat']); % 'ed0_shape_mean','es_shape_mean','ed_lambda'
-% load([padpath,'fmicro_aph_dat.mat']);  % 'pad_dat_fmicro','pad_lambda_fmicro'
-% load([padpath,'fpico_aph_dat.mat']);  % 'pad_dat_fpico','pad_lambda_fpico'
+load([padpath,'fmicro_aph_dat.mat']);  % 'pad_dat_fmicro','pad_lambda_fmicro'
+load([padpath,'fpiconano_aph_dat.mat']);  % 'pad_dat_fpiconano','pad_lambda_fpiconano'
 load([kdpath,'kd_cluster_averages.mat']); % 'plt_lambda','meankdest','meankdin','meankdmid','meankdout'
 
 % Reduce wavelength resolution if needed to reduce memory usage 
@@ -66,10 +69,8 @@ meankdout =  interp1(plt_lambda,meankdout,new_lambda);
 
 % Find wavelength index for 490 nm
 lmbd_490_indx = find(new_lambda==490);
-% lmbd_490_indx = find(plt_lambda>492 & plt_lambda<492.5);  % For full spectral resolution
 
-% Subsample kd and aph to new_lambda
-% ensure column vectors
+% Subsample kd and aph to new_lambda and ensure column vectors
 wv_kd = wv_kd(:);
 wv_aph = wv_aph(:);
 new_lambda = new_lambda(:);
@@ -109,14 +110,7 @@ X_reg = [ones(size(wvl_pred,1),1) wvl_pred];
 aphfit_indx = find(~isnan(aph_intrp_rshp(:,1)));
 
 % Perform regression
-coeffs(:,aphfit_indx) = X_reg \ aph_intrp_rshp(aphfit_indx,wvfit_indx)'; % Linear fit for every pixel
-
-% Get max aph for each pixel
-% Calculate maximum aph for each pixel
-% [maxAph, idx] = max(aph_intrp_rshp, [], 2);  % Maximum aph across wavelengths for each pixel
-            
-% lat_rshp = reshape(lat,imagem.*imagen,1);   % lat reshaped to vector
-% lon_rshp = reshape(lon,imagem.*imagen,1);   % lon reshaped to vector
+coeffs(:,aphfit_indx) = X_reg \ aph_intrp_rshp(aphfit_indx,wvfit_indx)'; % Linear fit for every pixel to estimate spectral slope
 
 % Calculate euphotic depth for PP calculations
 zeu = -log(0.01)./kd_rshp;   % Estimated euphotic depth from Chakraborty et al. (2017) and Lehrter et al. (2009) 
@@ -129,13 +123,6 @@ for iz = 1:10
     z_incr = zeu./10;
     z_array(:,:,iz) = repmat(z_incr.*iz,1,lmbd_n);
 end
-
-% if zeu > 10
-%     z_incr = 2;
-% else
-%     z_incr = 1;
-% end
-% z = 0:z_incr:round(zeu,0);  
 
 disp('Variables reshaped. Beginning surface irradiance and kd calculations...')
 
@@ -171,31 +158,33 @@ disp('Completed surface irradiance and kd calculations. Loading and interpolatin
 %% Prepare aph shape vectors
 % Load aph data and calculate aph440 normalized shape vector
 % 
-%  fmicro shape vector
-% load([padpath,'fmicro_aph_dat.mat']);
-% fmicro_aph = pad_dat_fmicro;
-% aph440_micro = fmicro_aph(pad_lambda_fmicro(:,1)>=439.9 & pad_lambda_fmicro(:,1)<=440.1,:);
-% aph_micro_440_norm = pad_dat_fmicro./aph440_micro; % aph normalized to aph440
-% fmicro_aph_shape = mean(aph_micro_440_norm,2); %The fmicro shape vector is the mean aph_micro_440_norm
-%             %  of all the fmicro-dominated stations
-% 
-% % Interpolate aph and aph shape vector to same wavelengths as ed_z
-% fmicro_aph_shape_interp = interp1(pad_lambda_fmicro(end:-1:1,1),fmicro_aph_shape(end:-1:1),plt_lambda);
-% fmicro_aph_shape_interp = interp1(pad_lambda_fmicro(:,1),fmicro_aph_shape,new_lambda);
-% 
-% %  fpico shape vector 
-% load([padpath,'fpico_aph_dat.mat']);
-% fpico_aph = pad_dat_fpico;
-% aph440_pico = fpico_aph(pad_lambda_fpico(:,1)>=439.9 & pad_lambda_fpico(:,1)<=440.1,:);
-% aph_pico_440_norm = pad_dat_fpico./aph440_pico;
-% fpico_aph_shape = mean(aph_pico_440_norm,2); %The fpico shape vector is the mean aph_micro_440_norm
-%             %  of all the fpico-dominated stations
-% fpico_aph_shape_interp = interp1(pad_lambda_fpico(:,1),fpico_aph_shape,new_lambda);
-% 
-% % Save shape vector file for later use
-% save([padpath,'GC2_aph_shape_vectors.mat'],'fmicro_aph_shape_interp','fpico_aph_shape_interp');
+% fmicro shape vector
+load([padpath,'fmicro_aph_dat.mat']);
+fmicro_aph = pad_dat_fmicro;
+aph440_micro = fmicro_aph(pad_lambda_fmicro(:,1)>=439.9 & pad_lambda_fmicro(:,1)<=440.1,:);
+aph_micro_440_norm = pad_dat_fmicro./aph440_micro; % aph normalized to aph440
+fmicro_aph_shape = mean(aph_micro_440_norm,2); %The fmicro shape vector is the mean aph_micro_440_norm
+            %  of all the fmicro-dominated stations
 
-load([padpath,'GC2_aph_shape_vectors.mat']);  % wavelength-interpolated aph
+% Interpolate aph and aph shape vector to same wavelengths as ed_z
+fmicro_aph_shape_interp = interp1(pad_lambda_fmicro(end:-1:1,1),fmicro_aph_shape(end:-1:1),plt_lambda);
+fmicro_aph_shape_interp = interp1(pad_lambda_fmicro(:,1),fmicro_aph_shape,new_lambda);
+fmicro_aph_shape_interp = fmicro_aph_shape_interp';  % Transpose to match dimensions of PUR
+
+% fpiconano shape vector 
+load([padpath,'fpiconano_aph_dat.mat']);
+fpiconano_aph = pad_dat_fpiconano;
+aph440_piconano = fpiconano_aph(pad_lambda_fpiconano(:,1)>=439.9 & pad_lambda_fpiconano(:,1)<=440.1,:);
+aph_piconano_440_norm = pad_dat_fpiconano./aph440_piconano;
+fpiconano_aph_shape = mean(aph_piconano_440_norm,2); %The fpiconano shape vector is the mean aph_micro_440_norm
+            %  of all the fpiconano-dominated stations
+fpiconano_aph_shape_interp = interp1(pad_lambda_fpiconano(:,1),fpiconano_aph_shape,new_lambda);
+fpiconano_aph_shape_interp = fpiconano_aph_shape_interp'; % Transpose to match dimensions of PUR
+
+% Save shape vector file for later use (optional, allows omission of above statements)
+save([padpath,'GC_aph_shape_vectors.mat'],'fmicro_aph_shape_interp','fpiconano_aph_shape_interp');
+
+% load([padpath,'GC_aph_shape_vectors.mat']);  % wavelength-interpolated aph
 % shape vectors normalized to aph440
 
 disp('Loading shape vectors completed. Beginning irradiance and PUR vs. depth calculations...')
@@ -213,27 +202,7 @@ PAR_z = single(zeros(size(kd_spectral,1),size(z_array,3),size(cos_indx,1)));
 PUR_z_micro = single(zeros(size(kd_spectral,1),size(z_array,3),size(cos_indx,1)));
 PUR_z_piconano = single(zeros(size(kd_spectral,1),size(z_array,3),size(cos_indx,1)));
 
-% for idep = 1:size(z,2)
-%     ed_z(:,:,idep) = ed0_molQ_perm2_perh.*exp(-kd_spectral.*z(:,idep)); % mol Q or mol photons m-2 h-1 
-%     PAR_z(:,idep) = sum(ed_z(:,:,idep),2,'omitnan');  % units: mol Q or mol photons m-2 h-1; 
-%     % Calculate PUR (integration of ed_z across wavelength spectrum
-%     PUR_z_micro(:,idep) = sum(ed_z(:,:,idep).*fmicro_aph_shape_interp,2,'omitnan'); % mol Q or mol photons m-2 h-1
-%     PUR_z_pico(:,idep) = sum(ed_z(:,:,idep).*fpico_aph_shape_interp,2,'omitnan'); % mol Q or mol photons m-2 h-1
-% end
-
 for iedz = 1:length(cos_indx)
-    % for idep = 1:size(z,2)
-    % 
-    %     % Compute irradiance as a function of depth, adjusting surface
-    %     %   irradiance to account for cosine of solar zenith angle at time of
-    %     %   profile by multiplying times ed0
-    %     ed_z(:,:,idep,iedz) = cos_solzen_ratio(iedz).*e0_molQ_perm2_perh.*exp(-kd_spectral.*z(:,idep)); % mol Q or mol photons m-2 h-1 nm-1
-    % 
-    %     % Sensitivity analysis
-    %     % ed_z = ed0_molQ_perm2_perh(:,1).*exp(-(1.5.*kd_calc_mean(1,:)').*z); % mol Q or mol photons m-2 h-1 nm-1
-    %     % ed_z = ed0_molQ_perm2_perh(:,1).*exp(-(0.5.*kd_calc_mean(1,:)').*z); % mol Q or mol photons m-2 h-1 nm-1
-    % 
-    % end
 
     % Compute irradiance as a function of depth, adjusting surface
     %   irradiance to account for cosine of solar zenith angle at time of
@@ -245,7 +214,7 @@ for iedz = 1:length(cos_indx)
     % lambda_400_700_indx = plt_lambda>399.8 & plt_lambda<700.2;
     PAR_z(:,:,iedz) = sum(ed_z(:,:,:,iedz),2,'omitnan');  % units: mol Q or mol photons m-2 h-1
     
-    % Second method to calculate PAR using constant value of Kd
+    % Second method to calculate PAR using constant value of Kd (optional)
     % Estimate KPAR for upper water column
     % dep_rng = 10;
     % par_mdl=polyfit(z(:,z<=dep_rng),log(PAR_z(z<=dep_rng,iedz)),1);
@@ -256,12 +225,12 @@ for iedz = 1:length(cos_indx)
     
     % PUR Calculation
     
-    % Calculate PUR (integration of ed_z across wavelength spectrum with 3.34 nm scaling factor
-    %   to account for finite bandwidth of HyperPro measurement)
+    % Calculate PUR (integration of ed_z across wavelength spectrum and
+    % multiply by aph shape vector
     
     PUR_z_micro(:,:,iedz) = sum(ed_z(:,:,:,iedz).*fmicro_aph_shape_interp,2,'omitnan');
     % mol Q or mol photons m-2 h-1
-    PUR_z_piconano(:,:,iedz) = sum(ed_z(:,:,:,iedz).*fpico_aph_shape_interp,2,'omitnan');
+    PUR_z_piconano(:,:,iedz) = sum(ed_z(:,:,:,iedz).*fpiconano_aph_shape_interp,2,'omitnan');
     % mol Q or mol photons m-2 h-1
 end
 
@@ -269,5 +238,3 @@ profile_depth = z_array(:,1,:);
 z = reshape(profile_depth,size(profile_depth,1),size(profile_depth,3));
 
 disp('Completed irradiance and PUR calculations...');
-
-
