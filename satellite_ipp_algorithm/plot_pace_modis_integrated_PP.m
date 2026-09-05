@@ -32,7 +32,7 @@ clearvars
 
 sensor_type = 'PACE'; % 'MODIS';
 
-monthrange = 1; %1:12;
+monthrange = 1:12;
 
 all_pp_mean = table();
 
@@ -41,14 +41,14 @@ for mnthn = monthrange
     %Input image data and plot
     switch sensor_type
         case 'PACE'
-            inputfolder='/run/media/slohrenz/PrimaryDrive/ocean_color/pace/';
+            inputfolder='/home/user/pace/';
             pp_file_lst=dir([inputfolder,'PACE_OCI.2025',sprintf('%02d', mnthn),'*.L3.PP.mat']);
         case 'MODIS'
-            inputfolder='/run/media/slohrenz/PrimaryDrive/ocean_color/modis/';
+            inputfolder='/home/user/modis/';
             pp_file_lst=dir([inputfolder,'A2025',sprintf('%02d', mnthn),'*.L3.PP.mat']);
     end
     
-    coastfolder='/run/media/slohrenz/PrimaryDrive/ocean_color/pace/Ancillary/';  %Enter the folder where your coastal shape file can be found
+    coastfolder='/home/user/Ancillary/';  %Enter the folder where your coastal shape file can be found
     
     latmin = 25;
     latmax = 31;
@@ -111,9 +111,7 @@ for mnthn = monthrange
         latlim = [latmin latmax];
         lonlim = [lonmin lonmax];
     
-        % G = geoshow(lat,lon,log10(PP_est_int_array.*12),'DisplayType','surface'); % Factor of 12 converts from molC to gC
         G = geoshow(lat_rshp,lon_rshp,log10(PP_est_int_array.*12),'DisplayType','surface'); % Factor of 12 converts from molC to gC
-        % G = imagesc(lon,lat,log10(rot90(PP_est_int_array).*12)); % Factor of 12 converts from molC to gC
         % set(gca,'YDir','reverse'); 
         clim_min = 0.1;
         clim_max = 10;
